@@ -1,11 +1,7 @@
 #include <stdio.h>
-
-// Structure to represent a sparse matrix
 struct matrix {
     int row, col, value;
 };
-
-// Function to convert a matrix to its sparse representation
 void sparse(int m, int n, int a[m][n], int count, struct matrix result[]) {
     int k = 1;
     result[0].row = m;
@@ -39,29 +35,27 @@ void transpose(struct matrix sparse[], struct matrix transposed[]) {
     transposed[0].col = sparse[0].row;
     transposed[0].value = sparse[0].value;
 
-    int rowTerms[numCols], startPos[numCols];
+    int total[numCols], index[numCols];
 
-    for (int i = 0; i < numCols; i++) rowTerms[i] = 0;
+    for (int i = 0; i < numCols; i++) total[i] = 0;
 
-    for (int i = 1; i <= numTerms; i++) rowTerms[sparse[i].col]++;
+    for (int i = 1; i <= numTerms; i++) total[sparse[i].col]++;
 
-    startPos[0] = 1;
-    for (int i = 1; i < numCols; i++) startPos[i] = startPos[i - 1] + rowTerms[i - 1];
+    index[0] = 1;
+    for (int i = 1; i < numCols; i++) index[i] = index[i - 1] + total[i - 1];
 
     for (int i = 1; i <= numTerms; i++) {
-        int position = startPos[sparse[i].col]++;
+        int position = index[sparse[i].col]++;
         transposed[position].row = sparse[i].col;
         transposed[position].col = sparse[i].row;
         transposed[position].value = sparse[i].value;
     }
-
     printf("\nThe transposed sparse matrix is:\n");
     printf("Coloum\tRow\tValue\n");
     for (int i = 0; i <= numTerms; i++) {
         printf("%d\t%d\t%d\n", transposed[i].row, transposed[i].col, transposed[i].value);
     }
 }
-
 int main() {
     int m, n, count = 0;
 
@@ -79,15 +73,10 @@ int main() {
             }
         }
     }
-
-    struct matrix sparseMatrix[count + 1];  // +1 for metadata
-    struct matrix transposedMatrix[count + 1];  // +1 for metadata
-
-    // Convert to sparse matrix
+    struct matrix sparseMatrix[count + 1];
+    struct matrix transposedMatrix[count + 1];
     sparse(m, n, a, count, sparseMatrix);
-
-    // Perform transpose
     transpose(sparseMatrix, transposedMatrix);
-
     return 0;
 }
+
