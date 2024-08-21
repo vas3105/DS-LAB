@@ -56,7 +56,7 @@ void transpose(struct matrix sparse[], struct matrix transposed[]) {
     }
 
     printf("\nThe transposed sparse matrix is:\n");
-    printf("Row\tColumn\tValue\n");
+    printf("Coloum\tRow\tValue\n");
     for (int i = 0; i <= numTerms; i++) {
         printf("%d\t%d\t%d\n", transposed[i].row, transposed[i].col, transposed[i].value);
     }
