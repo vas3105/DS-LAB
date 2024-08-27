@@ -39,7 +39,7 @@ char pop(struct stack *s)
 
     }
 }
-int view(struct stack *s)
+int peek(struct stack *s)
 {
     if(s->top==-1)
     {
@@ -85,14 +85,14 @@ int convert(char infix[],char postfix[])
         }
         else if(e==')')
         {
-            while(s.top!=-1 && view(&s)!='(')
+            while(s.top!=-1 && peek(&s)!='(')
             {
                  postfix[j++] = pop(&s);
             }pop(&s);
         }
         else if(check(e))
         {
-            while (s.top!=-1 && operators(view(&s)) >= operators(e)) {
+            while (s.top!=-1 && operators(peek(&s)) >= operators(e)) {
                 postfix[j++] = pop(&s);
             }
             push(&s, e);
@@ -108,8 +108,6 @@ int main()
     char infix[50],postfix[50];
      printf("Enter the infix expression: ");
     fgets(infix, sizeof(infix), stdin);
-
-    // Remove the newline character added by fgets
     infix[strcspn(infix, "\n")] = 0;
 
     convert(infix, postfix);
