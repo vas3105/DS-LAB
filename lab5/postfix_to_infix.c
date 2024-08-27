@@ -24,7 +24,7 @@ void push(struct stack *stk, char *exp)
 }
 void pop(struct stack *stk, char *exp)
 {
-    if (stk->top == -1
+    if (stk->top == -1)
     {
         printf("Stack underflow\n");
     }
