@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-
+#include <stdlib.h>
 #define MAX 100
 
 struct stack {
@@ -9,38 +9,20 @@ struct stack {
     char stk[MAX];
 };
 
-void init(struct stack *s);
-void push(struct stack *s, char ele);
-char pop(struct stack *s);
-char peek(struct stack *s);
-int precedence(char op);
-int isOperator(char c);
-void reverse(char* str);
-void convert(char *infix, char *prefix);
-
-int main() {
-    char infix[MAX], prefix[MAX];
-    printf("Enter the infix expression: ");
-    fgets(infix, sizeof(infix), stdin);
-    infix[strcspn(infix, "\n")] = '\0';
-    convert(infix, prefix);
-    printf("The prefix expression is: %s\n", prefix);
-    return 0;
-}
 void init(struct stack *s) {
     s->top = -1;
 }
 void push(struct stack *s, char ele) {
     if (s->top == MAX - 1) {
-        printf("Stack overflow\n");
+        printf("overflow");
     } else {
         s->stk[++(s->top)] = ele;
     }
 }
 char pop(struct stack *s) {
     if (s->top == -1) {
-        printf("Stack underflow\n");
-        return '\0';
+        printf("underflow");
+       // return '\0';
     } else {
         return s->stk[(s->top)--];
     }
@@ -90,7 +72,6 @@ void convert(char *infix, char *prefix) {
     }
     reversedInfix[length] = '\0';
 
-
     for (int i = 0; reversedInfix[i]; i++) {
         char c = reversedInfix[i];
 
@@ -104,7 +85,7 @@ void convert(char *infix, char *prefix) {
             }
             pop(&s);
         } else {
-            while (s.top != -1 && precedence(peek(&s)) >= precedence(c)) {
+            while (s.top != -1 && (precedence(peek(&s)) > precedence(c) || (precedence(peek(&s)) == precedence(c) && c != '^'))) {
                 prefix[k++] = pop(&s);
             }
             push(&s, c);
@@ -117,3 +98,14 @@ void convert(char *infix, char *prefix) {
     prefix[k] = '\0';
     reverse(prefix);
 }
+
+int main() {
+    char infix[MAX], prefix[MAX];
+    printf("Enter the infix expression: ");
+    fgets(infix, sizeof(infix), stdin);
+    infix[strcspn(infix, "\n")] = '\0';
+    convert(infix, prefix);
+    printf("The prefix expression is: %s\n", prefix);
+    return 0;
+}
+
