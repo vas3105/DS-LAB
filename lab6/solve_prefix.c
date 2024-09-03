@@ -11,7 +11,7 @@ void push(char* str) {
     if (top < MAX - 1) {
         strcpy(stack[++top], str);
     } else {
-        printf("Stack overflow\n");
+        printf("overflow");
     }
 }
 
@@ -19,7 +19,7 @@ char* pop() {
     if (top >= 0) {
         return stack[top--];
     } else {
-        printf("Stack underflow\n");
+        printf("underflow");
         return NULL;
     }
 }
@@ -32,7 +32,6 @@ void prefixToPostfix(char* prefix, char* postfix) {
     int length = strlen(prefix);
     char op1[MAX], op2[MAX], temp[MAX];
 
-    // Process the prefix expression from right to left
     for (int i = length - 1; i >= 0; i--) {
         char ch = prefix[i];
 
@@ -64,10 +63,6 @@ int evaluatePostfix(char* postfix) {
 
     int pop() {
         return stack[top--];
-    }
-
-    int isOperator(char c) {
-        return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
     }
 
     int solvePostfix(char* postfix) {
