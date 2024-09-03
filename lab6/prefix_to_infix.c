@@ -6,7 +6,7 @@
 
 struct stack {
     int top;
-    char s[MAX][MAX]; 
+    char s[MAX][MAX];
 };
 
 void init(struct stack *s) {
@@ -15,7 +15,7 @@ void init(struct stack *s) {
 
 void push(struct stack *s, char *ele) {
     if (s->top == MAX - 1) {
-        printf("Stack overflow\n");
+        printf("overflow");
     } else {
         strcpy(s->s[++(s->top)], ele);
     }
@@ -23,7 +23,7 @@ void push(struct stack *s, char *ele) {
 
 char* pop(struct stack *s) {
     if (s->top == -1) {
-        printf("Stack underflow\n");
+        printf("underflow");
         return NULL;
     } else {
         return s->s[(s->top)--];
@@ -56,7 +56,7 @@ void convert(struct stack *s, char prefix[], char infix[]) {
             char operand[2] = {ch, '\0'};
             push(s, operand);
         } else if (isOperator(ch)) {
-            // Pop two operands from the stack
+
             strcpy(op1, pop(s));
             strcpy(op2, pop(s));
             snprintf(temp, sizeof(temp), "(%s %c %s)", op1, ch, op2);
@@ -69,12 +69,12 @@ void convert(struct stack *s, char prefix[], char infix[]) {
 int main() {
     char prefix[MAX], infix[MAX];
     struct stack s;
-    
+
     init(&s);
 
     printf("Enter the prefix expression: ");
     fgets(prefix, sizeof(prefix), stdin);
-    prefix[strcspn(prefix, "\n")] = '\0';  // Remove newline character
+    prefix[strcspn(prefix, "\n")] = '\0';
 
     convert(&s, prefix, infix);
     printf("The infix expression is: %s\n", infix);
