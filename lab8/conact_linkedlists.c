@@ -1,100 +1,94 @@
 #include<stdio.h>
-struct node
-{
+#include<stdlib.h>
+
+struct node {
     int data;
     struct node *prev;
     struct node *next;
 };
-int insert_from_rear(struct node *head,int ele)
-{
-     struct node* newNode = malloc(sizeof(struct node));
-     struct node* current = head;
-     newNode->data=ele;
-     while (current->next != NULL) {
-     current = current->next;
-     }
-    current->next = newNode;
-    newNode->prev = current;
-    newNode->next=NULL;
-    return 0;
 
+void insert_from_rear(struct node **head, int ele) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    if (!newNode) {
+        printf("Memory allocation failed!\n");
+        return;
+    }
+
+    newNode->data = ele;
+    newNode->next = NULL;
+
+    if (*head == NULL) { // If the list is empty, new node becomes the head
+        newNode->prev = NULL;
+        *head = newNode;
+    } else {
+        struct node* current = *head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+        newNode->prev = current;
+    }
 }
-int concat(struct node **head1,struct node *head2)
-{
-  if (*head1 == NULL) {
+
+void concat(struct node **head1, struct node *head2) {
+    if (*head1 == NULL) {
         *head1 = head2;
         return;
     }
 
     struct node *current = *head1;
-   /* while (current->next != NULL) {
+
+    // Traverse to the last node of head1
+    while (current->next != NULL) {
         current = current->next;
     }
+
+    // Link the last node of head1 to head2
     current->next = head2;
     if (head2 != NULL) {
         head2->prev = current;
-    }*/
-    while(head2->next!=NULL && *head1->next==NULL)
-    {
-        insert_from_rear(head1,head2->data);
-        head1->next=NULL;
-        head2=head2->next;
     }
 }
 
 void display(struct node *head) {
-    printf("Doubly linked list: ");
+    printf("Concated linked list: ");
     while (head != NULL) {
         printf("%d ", head->data);
         head = head->next;
     }
     printf("\n");
 }
-int main()
-{
-    int n1,n2,ele;
+
+int main() {
+    int n1, n2, ele;
     struct node *head1 = NULL;
-    struct node *tail1 = NULL;
     struct node *head2 = NULL;
-    struct node *tail2 = NULL;
 
-    printf("Enter total elements of 1st node: ");
+    printf("Enter total elements of 1st list: ");
     scanf("%d", &n1);
-  //1st node head
-    head1 = malloc(sizeof(struct node));
-    printf("Enter the 1st element: ");
-    scanf("%d", &head1->data);
-    head1->next = NULL;
-    head1->prev = NULL;
-    tail1 = head1;
 
-    // Add the rest nodes of 1
-    for (int i = 2; i <= n1; i++) {
-        struct node *new_node = malloc(sizeof(struct node));
+    // Create the first list
+    for (int i = 1; i <= n1; i++) {
         printf("Enter element %d: ", i);
-        scanf("%d", &new_node->data);
-        insert_from_rear(head1,new_node->data);
+        scanf("%d", &ele);
+        insert_from_rear(&head1, ele);
     }
 
-    printf("Enter total elements of 2nd node: ");
+    printf("Enter total elements of 2nd list: ");
     scanf("%d", &n2);
-   //2nd node head
-    head2 = malloc(sizeof(struct node));
-    printf("Enter the 1st element: ");
-    scanf("%d", &head2->data);
-    head2->next = NULL;
-    head2->prev = NULL;
-    tail2 = head2;
 
-    // Add the rest nodes of 2
-    for (int i = 2; i <= n2; i++) {
-        struct node *new_node = malloc(sizeof(struct node));
+    // Create the second list
+    for (int i = 1; i <= n2; i++) {
         printf("Enter element %d: ", i);
-        scanf("%d", &new_node->data);
-       insert_from_rear(head2,new_node->data);
+        scanf("%d", &ele);
+        insert_from_rear(&head2, ele);
     }
-    concat(&head1,head2);
+
+    // Concatenate the lists
+    concat(&head1, head2);
+
+
     display(head1);
 
-
+    return 0;
 }
