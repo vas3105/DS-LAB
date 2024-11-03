@@ -88,7 +88,7 @@ int traverse(struct node *root, int ele) {
     int leftParent = traverse(root->left, ele);
     if (leftParent != -1) return leftParent;
 
-    return traverse(root->right, ele);
+    return traverse(root->ryt, ele);
 }
 
 void parent(struct node *root, int ele) {
@@ -175,5 +175,5 @@ void main()
                     break;
         }
     }
-return 0;}
+}
 
