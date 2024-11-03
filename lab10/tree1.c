@@ -42,8 +42,8 @@ void preorder(struct node *root)
 void postorder(struct node *root)
 {
      if(root==NULL) return;
-    preorder(root->left);
-    preorder(root->ryt);
+    postorder(root->left);
+    postorder(root->ryt);
     printf("%d\t",root->data);
 }
 int depth(struct node* root, int value, int depths) {
@@ -99,7 +99,7 @@ void parent(struct node *root, int ele) {
 
     int parentData = traverse(root, ele);
     if (parentData != -1) {
-        printf("parent of is: %d\n",parentData);
+        printf("parent of %d is : %d\n",ele,parentData);
     } else {
         printf("parent not found\n", ele);
     }
