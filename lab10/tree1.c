@@ -17,13 +17,32 @@ struct node* createnode(int data) {
 void insert(struct node** root, int data) {
     if (*root == NULL) {
         *root = createnode(data);
-    } else {
-        if (data < (*root)->data) {
-            insert(&((*root)->left), data);
-        } else {
-            insert(&((*root)->ryt), data);
+    } 
+    struct node *queue[50];
+    int front=0,rear=0;
+    queue[rear++]=*root;
+    while(front<rear)
+        {
+            struct node *temp=queue[front++];
+            if(temp->left==NULL)
+            {
+                temp->left=createnode(data);
+                break;
+            }
+            else
+            {
+                queue[rear++]=temp->left;
+            }
+            if(temp->ryt==NULL)
+            {
+                temp->ryt=createnode(data);
+                break;
+            }
+            else
+            {
+                queue[rear++]=temp->ryt;
+            }
         }
-    }
 }
 void inorder(struct node *root)
 {
