@@ -17,6 +17,7 @@ struct node* createnode(int data) {
 void insert(struct node** root, int data) {
     if (*root == NULL) {
         *root = createnode(data);
+        return ;
     } 
     struct node *queue[50];
     int front=0,rear=0;
@@ -130,9 +131,9 @@ int leafnode(struct node *root)
         return 0;
     }
     if (root->left == NULL && root->ryt == NULL) {
-        return 1;
+        return 1;}
     return leafnode(root->left)+leafnode(root->ryt);
-}}
+}
 void main()
 {
     int n,ch,ele,depths,count;
